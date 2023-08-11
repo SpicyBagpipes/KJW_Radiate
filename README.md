@@ -1,6 +1,8 @@
 # KJW_Radiate
 A modification for Arma 3 that adds high-fidelity Radiological threats to the game, configurable by mission makers.
 
+Steam Workshop: https://steamcommunity.com/sharedfiles/filedetails/?id=2917867026
+
 Wiki: https://kjws-arma-enhancements.gitbook.io/kjws-radiate/
 
 ## Features
