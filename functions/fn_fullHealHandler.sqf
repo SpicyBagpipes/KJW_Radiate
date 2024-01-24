@@ -1,1 +1,0 @@
-_id = ["ACE_Medical_FullHeal", {[ACE_player] call KJW_Radiate_fnc_clearStats;}] call CBA_fnc_addEventHandler;
