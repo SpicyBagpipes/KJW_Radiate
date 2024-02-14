@@ -22,7 +22,7 @@ params ["_unit", "_deltaTime"];
 // _deltaTime is usually approximately 1 for handlevitals. Count rate is counts per second.
 
 _deltaTime = _deltaTime*accTime;
-private _zones = GVAR(zones) select {systemChat str _x; _unit inArea _x};
+private _zones = GVAR(zones) select {_unit inArea _x};
 private _deconZones = GVAR(deconZones) select {_unit inArea _x && _x getVariable QGVAR(turnedOn)};
 
 private _fnc_objectRelevant = {

@@ -62,3 +62,5 @@ publicVariable QGVAR(radiationProperties);
 publicVariable QGVAR(sources);
 publicVariable QGVAR(zones);
 publicVariable QGVAR(deconZones);
+
+call FUNC(module_registerModules);
