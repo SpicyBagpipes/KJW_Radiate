@@ -152,13 +152,13 @@ if (_uniformProtection + _facewearProtection < GVAR(ppeThreshold)) then {
 private _fluidData = _unit getVariable ["KJW_MedicalExpansion_Core_bloodInfo", []];
 
 if (_fluidData isNotEqualTo [] && _uniformProtection + _facewearProtection < GVAR(ppeThreshold)) then {
-	private _rbc = _fluidData get "RBC";
-	private _wbc = _fluidData get "WBC";
-	private _platelet = _fluidData get "Platelet";
-
-	_fluidData set ["RBC", (_rbc-(_currentIonisation*_deltaTime))/1000];
-	_fluidData set ["WBC", (_wbc-(_currentIonisation*_deltaTime))/1000];
-	_fluidData set ["Platelet", (_platelet-(_currentIonisation*_deltaTime))/1000];
+	private _rbc = _fluidData getOrDefault ["RBC",24];
+	private _wbc = _fluidData getOrDefault ["WBC",24];
+	private _platelet = _fluidData getOrDefault ["Platelet",24];
+	
+	_fluidData set ["RBC", _rbc-((_currentIonisation*_deltaTime)/1000)];
+	_fluidData set ["WBC", _wbc-((_currentIonisation*_deltaTime)/1000)];
+	_fluidData set ["Platelet", _platelet-((_currentIonisation*_deltaTime)/1000)];
 };
 
 // Add radiation poisoning medication
