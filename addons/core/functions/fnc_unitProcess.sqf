@@ -22,8 +22,7 @@ params ["_unit", "_deltaTime"];
 // _deltaTime is usually approximately 1 for handlevitals. Count rate is counts per second.
 
 _deltaTime = _deltaTime*accTime;
-
-private _zones = GVAR(zones) select {_unit inArea _x};
+private _zones = GVAR(zones) select {systemChat str _x; _unit inArea _x};
 private _deconZones = GVAR(deconZones) select {_unit inArea _x && _x getVariable QGVAR(turnedOn)};
 
 private _fnc_objectRelevant = {
@@ -66,6 +65,7 @@ private _totalIonisation = _unit getVariable [QGVAR(totalIonisation), 0];
 
 private _protection = _unit getVariable ["KJW_MedicalExpansion_PPE_ppe", []];
 _protection params ["_headgearProtection", "_facewearProtection", "_backpackProtection", "_uniformProtection"];
+_facewearProtection = _facewearProtection + _headgearProtection;
 
 {
 	private _countRate = _x getVariable [QGVAR(countRate), 10];
@@ -143,23 +143,53 @@ _currentCounts = _currentCounts + CMBRCOUNT*_deltaTime;
 
 // Update unit variables
 _unit setVariable [QGVAR(currentCounts), _currentCounts];
-_unit setVariable [QGVAR(currentIonisation), _currentIonisation];
-_unit setVariable [QGVAR(totalIonisation), _totalIonisation + _currentIonisation];
+if (_uniformProtection + _facewearProtection < GVAR(ppeThreshold)) then {
+	_unit setVariable [QGVAR(currentIonisation), _currentIonisation];
+	_unit setVariable [QGVAR(totalIonisation), _totalIonisation + _currentIonisation];
+};
 
 // Modify blood values accordingly
 private _fluidData = _unit getVariable ["KJW_MedicalExpansion_Core_bloodInfo", []];
 
-if (_fluidData isEqualTo []) exitWith {};
+if (_fluidData isNotEqualTo [] && _uniformProtection + _facewearProtection < GVAR(ppeThreshold)) then {
+	private _rbc = _fluidData get "RBC";
+	private _wbc = _fluidData get "WBC";
+	private _platelet = _fluidData get "Platelet";
 
-private _rbc = _fluidData get "RBC";
-private _wbc = _fluidData get "WBC";
-private _platelet = _fluidData get "Platelet";
-
-_fluidData set ["RBC", _rbc-_currentIonisation/10];
-_fluidData set ["WBC", _wbc-_currentIonisation/10];
-_fluidData set ["Platelet", _platelet-_currentIonisation/10];
+	_fluidData set ["RBC", (_rbc-(_currentIonisation*_deltaTime))/1000];
+	_fluidData set ["WBC", (_wbc-(_currentIonisation*_deltaTime))/1000];
+	_fluidData set ["Platelet", (_platelet-(_currentIonisation*_deltaTime))/1000];
+};
 
 // Add radiation poisoning medication
-if (_currentIonisation > 1) then {
-	[_unit, _unit, "Chest", "KJW_RadiationPoisoning", objNull, "KJW_RadiationPoisoning"] call ace_medical_treatment_fnc_medication;
+if (_currentIonisation > 10*_deltaTime) then {
+	private _roll = random 60000*_deltaTime;
+	if (_roll < _currentIonisation*_deltaTime) then {
+		[_unit, _deltaTime*2] call ace_medical_fnc_adjustPainLevel;
+		["ace_medical_treatment_medicationLocal", [_unit, "Chest", "KJW_RadiationPoisoning"], _patient] call CBA_fnc_localEvent;
+	};
+};
+
+if (_totalIonisation > 50*_deltaTime) then {
+	private _roll = random 600000*_deltaTime;
+	if (_roll < _totalIonisation*_deltaTime) then {
+		[_unit, _deltaTime*2] call ace_medical_fnc_adjustPainLevel;
+		["ace_medical_treatment_medicationLocal", [_unit, "Chest", "KJW_RadiationPoisoning"], _patient] call CBA_fnc_localEvent;
+	};
+};
+
+private _EDTACount = [_unit, "KJW_Radiate_EDTA"] call ace_medical_status_fnc_getMedicationCount;
+if (_EDTACount > 0) then {
+	private _unitCounts = _unit getVariable [QGVAR(countRate),0];
+	private _newAmount = (_unitCounts-(_EDTACount*GVAR(EDTACoef))*_deltaTime);
+	if (_newAmount <= 0) then {
+		[_unit] call FUNC(deleteSource);
+	};
+	_unit setVariable [QGVAR(countRate), _newAmount max 0];
+};
+
+private _EACACount = ([_unit, "KJW_Radiate_EACA"] call ace_medical_status_fnc_getMedicationCount) + ([_unit, "EACA"] call ace_medical_status_fnc_getMedicationCount); // KAT compat
+if (_EACACount > 0) then {
+	private _newAmount = ((_totalIonisation + _currentIonisation)-(_EACACount*GVAR(EACACoef))*_deltaTime);
+	_unit setVariable [QGVAR(totalIonisation), _newAmount max 0];
 };

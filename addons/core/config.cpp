@@ -37,4 +37,5 @@ class Extended_PreInit_EventHandlers {
 #include "CfgVehicles.hpp"
 #include "CfgSounds.hpp"
 #include "ace_medical_treatment.hpp"
+#include "ace_medical_treatment_actions.hpp"
 #include "Cfg3den.hpp"

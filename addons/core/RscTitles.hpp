@@ -1,6 +1,12 @@
 class RscText;
 class RscPicture;
 class RscTitles {
+    class Default {
+		idd = -1;
+		fadein = 0;
+		fadeout = 0;
+		duration = 0;
+	};
 	class GVAR(counter) {
 		idd = 4948;
 		enableSimulation = 1;

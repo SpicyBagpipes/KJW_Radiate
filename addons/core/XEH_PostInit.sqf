@@ -28,7 +28,7 @@ call FUNC(addEventHandlers);
 	}
 ] call ace_field_rations_fnc_addStatusModifier;
 
-if !isServer exitWith {};
+if !(isServer) exitWith {};
 
 private _radiationProperties = [ //["_maxDistance", "_attenuation", "_ionisingPower"]
 	[
@@ -54,8 +54,8 @@ private _radiationProperties = [ //["_maxDistance", "_attenuation", "_ionisingPo
 ];
 
 GVAR(radiationProperties) = createHashmapFromArray _radiationProperties;
-GVAR(sources) = [];
-GVAR(zones) = allMissionObjects "" apply {_x getVariable QGVAR(radiationSource)};
+GVAR(sources) = allMissionObjects "" select {_x getVariable QGVAR(radiationSource)};
+GVAR(zones) = [];
 GVAR(deconZones) = [];
 
 publicVariable QGVAR(radiationProperties);

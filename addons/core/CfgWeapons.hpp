@@ -7,4 +7,11 @@ class CfgWeapons {
         displayName = "Geiger Counter";
         picture = QPATHTOF(data\tx\geigercounter_ca.paa);
     };
+    class ACE_morphine;
+    class KJW_Radiate_EDTA : ACE_morphine {
+        displayName = "EDTA Autoinjector"; // make it iv only
+    };
+    class KJW_Radiate_EACA : ACE_morphine {
+        displayName = "EACA Autoinjector"; // make it iv only
+    };
 };
