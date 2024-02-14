@@ -160,3 +160,6 @@ _fluidData set ["WBC", _wbc-_currentIonisation/10];
 _fluidData set ["Platelet", _platelet-_currentIonisation/10];
 
 // Add radiation poisoning medication
+if (_currentIonisation > 1) then {
+	[_unit, _unit, "Chest", "KJW_RadiationPoisoning", objNull, "KJW_RadiationPoisoning"] call ace_medical_treatment_fnc_medication;
+};

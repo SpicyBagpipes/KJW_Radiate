@@ -19,6 +19,17 @@
 call FUNC(addSettings);
 call FUNC(addEventHandlers);
 
+[
+	2,
+	{
+		params ["_unit"];
+		private _ionisation = _unit getVariable [QGVAR(totalIonisation), 0];
+		_ionisation/5
+	}
+] call ace_field_rations_fnc_addStatusModifier;
+
+if !isServer exitWith {};
+
 private _radiationProperties = [ //["_maxDistance", "_attenuation", "_ionisingPower"]
 	[
 		"alpha",
@@ -43,16 +54,11 @@ private _radiationProperties = [ //["_maxDistance", "_attenuation", "_ionisingPo
 ];
 
 GVAR(radiationProperties) = createHashmapFromArray _radiationProperties;
-
 GVAR(sources) = [];
-GVAR(zones) = [];
+GVAR(zones) = allMissionObjects "" apply {_x getVariable QGVAR(radiationSource)};
 GVAR(deconZones) = [];
 
-[
-	2,
-	{
-		params ["_unit"];
-		private _ionisation = _unit getVariable [QGVAR(totalIonisation), 0];
-		_ionisation/5
-	}
-] call ace_field_rations_fnc_addStatusModifier;
+publicVariable QGVAR(radiationProperties);
+publicVariable QGVAR(sources);
+publicVariable QGVAR(zones);
+publicVariable QGVAR(deconZones);
