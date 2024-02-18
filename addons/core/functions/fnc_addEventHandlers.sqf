@@ -78,18 +78,3 @@
 	[],
 	0.5
 ] call CBA_fnc_waitAndExecute;
-
-[
-	"loadout",
-	{
-		if (!isNull (findDisplay 1127001)) exitWith{}; // Check if in arsenal or not
-		ACE_Player call FUNC(hoseInit);
-	}
-] call CBA_fnc_addPlayerEventHandler;
-
-[
-	"ace_arsenal_displayClosed",
-	{
-		ACE_Player call FUNC(hoseInit);
-	}
-] call CBA_fnc_addEventHandler;
