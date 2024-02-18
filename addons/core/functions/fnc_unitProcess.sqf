@@ -156,28 +156,35 @@ if (_fluidData isNotEqualTo [] && _uniformProtection + _facewearProtection < GVA
 	private _wbc = _fluidData getOrDefault ["WBC",24];
 	private _platelet = _fluidData getOrDefault ["Platelet",24];
 	
-	_fluidData set ["RBC", _rbc-((_currentIonisation*_deltaTime)/1000)];
-	_fluidData set ["WBC", _wbc-((_currentIonisation*_deltaTime)/1000)];
-	_fluidData set ["Platelet", _platelet-((_currentIonisation*_deltaTime)/1000)];
-};
+	_fluidData set ["RBC", _rbc-((_currentIonisation*_deltaTime)/2)];
+	_fluidData set ["WBC", _wbc-((_currentIonisation*_deltaTime)/random [2,2.5,3])];
+	_fluidData set ["Platelet", _platelet-((_currentIonisation*_deltaTime)/2)];
 
-// Add radiation poisoning medication
-if (_currentIonisation > 10*_deltaTime) then {
-	private _roll = random 60000*_deltaTime;
-	if (_roll < _currentIonisation*_deltaTime) then {
-		[_unit, _deltaTime*2] call ace_medical_fnc_adjustPainLevel;
-		["ace_medical_treatment_medicationLocal", [_unit, "Chest", "KJW_RadiationPoisoning"], _patient] call CBA_fnc_localEvent;
+	// Add radiation poisoning medication
+	if (_currentIonisation > 5*_deltaTime) then {
+		private _roll = random 60000*_deltaTime;
+		if (_roll < _currentIonisation*_deltaTime) then {
+			[_unit, _deltaTime*2] call ace_medical_fnc_adjustPainLevel;
+			["ace_medical_treatment_medicationLocal", [_unit, "Chest", "KJW_RadiationPoisoning"], _patient] call CBA_fnc_localEvent;
+			[QGVAR(damaged),["exposure"]] call CBA_fnc_localEvent;
+		};
+	};
+	if (_totalIonisation > 500) then {
+		private _roll = random 600000*_deltaTime;
+		if (_roll < _totalIonisation*_deltaTime) then {
+			[QGVAR(damaged),["ambient"]] call CBA_fnc_localEvent;
+			[_unit, _deltaTime*2] call ace_medical_fnc_adjustPainLevel;
+			["ace_medical_treatment_medicationLocal", [_unit, "Chest", "KJW_RadiationPoisoning"], _patient] call CBA_fnc_localEvent;
+		};
 	};
 };
 
-if (_totalIonisation > 50*_deltaTime) then {
-	private _roll = random 600000*_deltaTime;
-	if (_roll < _totalIonisation*_deltaTime) then {
-		[_unit, _deltaTime*2] call ace_medical_fnc_adjustPainLevel;
-		["ace_medical_treatment_medicationLocal", [_unit, "Chest", "KJW_RadiationPoisoning"], _patient] call CBA_fnc_localEvent;
-	};
+private _EACACount = ([_unit, "KJW_Radiate_EACA"] call ace_medical_status_fnc_getMedicationCount) + ([_unit, "EACA"] call ace_medical_status_fnc_getMedicationCount); // KAT compat
+if (_EACACount > 0) then {
+	private _newAmount = ((_totalIonisation + _currentIonisation)-(_EACACount*GVAR(EACACoef))*_deltaTime);
+	_unit setVariable [QGVAR(totalIonisation), _newAmount max 0];
 };
-
+		
 private _EDTACount = [_unit, "KJW_Radiate_EDTA"] call ace_medical_status_fnc_getMedicationCount;
 if (_EDTACount > 0) then {
 	private _unitCounts = _unit getVariable [QGVAR(countRate),0];
@@ -186,10 +193,4 @@ if (_EDTACount > 0) then {
 		[_unit] call FUNC(deleteSource);
 	};
 	_unit setVariable [QGVAR(countRate), _newAmount max 0];
-};
-
-private _EACACount = ([_unit, "KJW_Radiate_EACA"] call ace_medical_status_fnc_getMedicationCount) + ([_unit, "EACA"] call ace_medical_status_fnc_getMedicationCount); // KAT compat
-if (_EACACount > 0) then {
-	private _newAmount = ((_totalIonisation + _currentIonisation)-(_EACACount*GVAR(EACACoef))*_deltaTime);
-	_unit setVariable [QGVAR(totalIonisation), _newAmount max 0];
 };
