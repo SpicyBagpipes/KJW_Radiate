@@ -49,7 +49,7 @@ private _radiationProperties = [ //["_maxDistance", "_attenuation", "_ionisingPo
 	],
 	[
 		"irradiated",
-		[1000, 1000, 0.01]
+		[1000, 1000, 0.1]
 	]
 ];
 
