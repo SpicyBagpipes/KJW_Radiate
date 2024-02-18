@@ -64,3 +64,5 @@ publicVariable QGVAR(zones);
 publicVariable QGVAR(deconZones);
 
 call FUNC(module_registerModules);
+
+[QGVAR(postInitialised),[]] call CBA_fnc_localEvent;
