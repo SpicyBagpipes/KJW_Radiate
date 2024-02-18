@@ -28,7 +28,7 @@ private _deconZones = GVAR(deconZones) select {_unit inArea _x && _x getVariable
 private _fnc_objectRelevant = {
 	params ["_unit", "_obj1"];
 
-	private _type = _obj1 getVariable [QGVAR(radiationType), "alpha"];
+	private _type = _obj1 getVariable [QGVAR(radiationType), "gamma"];
 
 	private _properties = GVAR(radiationProperties) get _type;
 	_properties params ["_maxDistance", "_attenuation", "_ionisingPower"];
