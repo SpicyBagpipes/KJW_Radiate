@@ -1,3 +1,0 @@
-#define MACRO_SUIT_PROTECTION(CLASS,BASECLASS,VALUE) class CLASS : BASECLASS {\
-	KJW_Radiate_ProtectionValue = VALUE ;\
-};
