@@ -92,7 +92,7 @@ _facewearProtection = _facewearProtection + _headgearProtection;
 	};
 	if (!_uniformBlocked) then {
 		// Irradiate -- skin. _uniformMultiplier == how much of the count should be taken.
-		private _touchedCounts = _countRate*_uniformMultiplier;
+		private _touchedCounts = (_countRate/10)*(1-_facewearMultiplier) max 0;
 		private _unitIsSource = _unit in GVAR(sources);
 
 		if (!_unitIsSource) then {
@@ -108,7 +108,7 @@ _facewearProtection = _facewearProtection + _headgearProtection;
 	};
 	if (!_facewearBlocked) then {
 		// Irradiate -- inhaled. _facewearMultiplier == how much of the count should be taken.
-		private _inhaledCounts = _countRate*_facewearMultiplier;
+		private _inhaledCounts = (_countRate/10)*(1-_facewearMultiplier) max 0;
 		private _unitIsSource = _unit in GVAR(sources);
 
 		if (!_unitIsSource) then {
