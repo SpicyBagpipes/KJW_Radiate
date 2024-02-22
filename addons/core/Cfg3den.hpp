@@ -40,7 +40,7 @@ class Cfg3den {
                     };
                     class KJW_Radiate_Core_countRate {
                         displayName = "Activity of object";
-                        toolTip = "Measured in counts per minute.";
+                        toolTip = "Measured in counts per second.";
                         property = "KJW_Radiate_Core_countRate";
                         control = "EditShort";
                         defaultValue = "'0'";

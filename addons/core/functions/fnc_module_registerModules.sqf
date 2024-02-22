@@ -27,7 +27,7 @@
             "Add Source",
             [
                 ["COMBO","Radiation Type",[["alpha","beta","gamma"],["Alpha","Beta","Gamma"],[0]]],
-                ["SLIDER",["Count Rate","Counts per minute"],[1,2000,10,0]]
+                ["SLIDER",["Count Rate","Counts per second"],[1,2000,10,0]]
             ],
             {
                 _this#0 params ["_type","_countRate"];

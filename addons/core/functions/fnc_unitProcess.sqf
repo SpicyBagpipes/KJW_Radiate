@@ -36,7 +36,7 @@ private _fnc_objectRelevant = {
 	if (_obj1 isKindOf "CAManBase") then {_attenuation = _attenuation - 1}; // Has to penetrate out of the unit.
 
 	private _unitDist = _unit distance _obj1;
-	if (_unitDist > _maxDistance) then {continueWith false};
+	if (_unitDist > (_maxDistance + random 2)) then {continueWith false};
 
 	private _intersects = lineIntersectsSurfaces [eyePos _unit, getPosASL _obj1, _unit, _obj1, true, _attenuation];
 	private _nIntersects = count _intersects;
@@ -58,7 +58,11 @@ private _totalIonisation = _unit getVariable [QGVAR(totalIonisation), 0];
 
 {
 	_x params ["_obj1", "_strengthCoef", "_ionisingPower", "_countRate", "_unitDist"];
-	_countRate = (_countRate*(1/(_unitDist max 1)^2))*_deltaTime; // Will increase exponentially as tends towards 0. Need to handle that.
+	if GVAR(gamifiedDistance) then {
+		_countRate = (_countRate*(1/(_unitDist max 1)))*_deltaTime;
+	} else {
+		_countRate = (_countRate*(1/(_unitDist max 1)^2))*_deltaTime;
+	};
 	_currentCounts = _currentCounts + _countRate;
 	_currentIonisation = _currentIonisation + (_ionisingPower*_strengthCoef*_countRate); // deltaT already handled in countRate, no need to repeat it.
 } forEach _relevantSources;

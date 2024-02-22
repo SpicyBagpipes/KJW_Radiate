@@ -78,3 +78,8 @@
 	[],
 	0.5
 ] call CBA_fnc_waitAndExecute;
+
+[
+	"ace_medical_treatment_fullHealLocal",
+	FUNC(resetVariables)
+] call CBA_fnc_addEventHandler;
