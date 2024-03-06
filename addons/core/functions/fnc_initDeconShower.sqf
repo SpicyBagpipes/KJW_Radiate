@@ -23,7 +23,7 @@ private _zone = _obj1 getVariable [QGVAR(deconZone), objNull];
 if (!local _obj1 || !isNull _zone) exitWith {};
 private _type = typeOf _obj1;
 private _zoneParams = switch (_type) do {
-	case "DeconShower_02_F": {[2,5, 0.5, 0, true, 2.5]};
+	case "DeconShower_02_F": {[2.5, 0.5, 0, true, 2.5]};
 	case "DeconShower_01_F": {[0.71, 0.71, 0, true, 1.2]};
 	default {[]};
 };

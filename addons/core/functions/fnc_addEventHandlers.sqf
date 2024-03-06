@@ -76,7 +76,7 @@
 		] call CBA_fnc_addClassEventHandler;
 	},
 	[],
-	0.5
+	1
 ] call CBA_fnc_waitAndExecute;
 
 [
