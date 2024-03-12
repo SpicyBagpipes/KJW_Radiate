@@ -1,7 +1,5 @@
 class Cfg3den {
-    class Object {
-        class AttributeCategories {
-            class KJW_Radiate {
+    class KJW_Radiate {
                 displayName = "KJW's Radiate";
                 collapsed = 1;
                 class Attributes {
@@ -49,6 +47,14 @@ class Cfg3den {
                     };
                 };
             };
+    class Object {
+        class AttributeCategories {
+            class KJW_Radiate_Object: KJW_Radiate {};
+        };
+    };
+    class Trigger {
+        class AttributeCategories {
+            class KJW_Radiate_Trigger: KJW_Radiate {};
         };
     };
 };
