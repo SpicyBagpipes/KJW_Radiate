@@ -18,6 +18,7 @@
 
 call FUNC(addSettings);
 call FUNC(addEventHandlers);
+call FUNC(module_registerModules);
 
 [
 	2,
@@ -62,7 +63,5 @@ publicVariable QGVAR(radiationProperties);
 publicVariable QGVAR(sources);
 publicVariable QGVAR(zones);
 publicVariable QGVAR(deconZones);
-
-call FUNC(module_registerModules);
 
 [QGVAR(postInitialised),[]] call CBA_fnc_localEvent;
