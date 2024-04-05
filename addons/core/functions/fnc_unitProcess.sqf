@@ -160,9 +160,9 @@ if (_fluidData isNotEqualTo [] && _uniformProtection + _facewearProtection < GVA
 	private _wbc = _fluidData getOrDefault ["WBC",24];
 	private _platelet = _fluidData getOrDefault ["Platelet",24];
 	
-	_fluidData set ["RBC", _rbc-((_currentIonisation*_deltaTime)/2)];
-	_fluidData set ["WBC", _wbc-((_currentIonisation*_deltaTime)/random [2,2.5,3])];
-	_fluidData set ["Platelet", _platelet-((_currentIonisation*_deltaTime)/2)];
+	_fluidData set ["RBC", (_rbc-((_currentIonisation*_deltaTime)/2)) max 0];
+	_fluidData set ["WBC", (_wbc-((_currentIonisation*_deltaTime)/random [2,2.5,3])) max 0];
+	_fluidData set ["Platelet", (_platelet-((_currentIonisation*_deltaTime)/2)) max 0];
 
 	// Add radiation poisoning medication
 	if (_currentIonisation > 5*_deltaTime) then {
