@@ -20,12 +20,16 @@ call FUNC(addSettings);
 call FUNC(addEventHandlers);
 call FUNC(module_registerModules);
 
+if (isNil QGVAR(fieldRationsCoef)) then {
+	GVAR(fieldRationsCoef) = 100;
+};
+
 [
 	2,
 	{
 		params ["_unit"];
 		private _ionisation = _unit getVariable [QGVAR(totalIonisation), 0];
-		_ionisation/5
+		_ionisation/GVAR(fieldRationsCoef)
 	}
 ] call ace_field_rations_fnc_addStatusModifier;
 
