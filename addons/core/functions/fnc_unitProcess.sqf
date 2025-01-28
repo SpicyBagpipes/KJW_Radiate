@@ -183,13 +183,15 @@ if (_fluidData isNotEqualTo [] && _uniformProtection + _facewearProtection < GVA
 	};
 };
 
-private _EACACount = ([_unit, "KJW_Radiate_EACA"] call ace_medical_status_fnc_getMedicationCount) + ([_unit, "EACA"] call ace_medical_status_fnc_getMedicationCount); // KAT compat
+private _EACACount = ([_unit, "KJW_Radiate_EACA"] call ace_medical_status_fnc_getMedicationCount) vectorAdd ([_unit, "EACA"] call ace_medical_status_fnc_getMedicationCount); // KAT compat
+_EACACount = _EACACount#0;
 if (_EACACount > 0) then {
 	private _newAmount = ((_totalIonisation + _currentIonisation)-(_EACACount*GVAR(EACACoef))*_deltaTime);
 	_unit setVariable [QGVAR(totalIonisation), _newAmount max 0];
 };
 		
 private _EDTACount = [_unit, "KJW_Radiate_EDTA"] call ace_medical_status_fnc_getMedicationCount;
+_EDTACount = _EDTACount#0;
 if (_EDTACount > 0) then {
 	private _unitCounts = _unit getVariable [QGVAR(countRate),0];
 	private _newAmount = (_unitCounts-(_EDTACount*GVAR(EDTACoef))*_deltaTime);
