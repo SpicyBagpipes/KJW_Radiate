@@ -143,7 +143,9 @@ _facewearProtection = _facewearProtection + _headgearProtection;
 } forEach _deconZones;
 
 // Background radiation
-_currentCounts = _currentCounts + CMBRCOUNT*_deltaTime;
+if GVAR(backgroundRadiation) then {
+	_currentCounts = _currentCounts + CMBRCOUNT*_deltaTime;
+};
 
 // Update unit variables
 _unit setVariable [QGVAR(currentCounts), _currentCounts];

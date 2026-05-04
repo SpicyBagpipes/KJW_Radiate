@@ -28,6 +28,17 @@
 ] call CBA_fnc_addSetting;
 
 [
+	QGVAR(backgroundRadiation),
+	"CHECKBOX",
+	["Background Radiation", "Enable background radiation"],
+	["KJW's Medical Expansion", "Radiate"],
+	true, // Default value
+	1, // 1: all clients share the same setting, 2: setting can’t be overwritten (optional, default: 0)
+	{}, // Setting changed code
+	false // Requires restart
+] call CBA_fnc_addSetting;
+
+[
 	QGVAR(gamifiedDistance),
 	"CHECKBOX",
 	["Gamified Distance Calculation", "Check for a less realistic radiation distance calculation however is more gamified"],
