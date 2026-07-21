@@ -19,6 +19,8 @@
 
 params ["_unit", "_deltaTime"];
 
+if (!GVAR(doAI) && (_unit isNotEqualTo ace_player)) exitWith {};
+
 // _deltaTime is usually approximately 1 for handlevitals. Count rate is counts per second.
 
 _deltaTime = _deltaTime*accTime;

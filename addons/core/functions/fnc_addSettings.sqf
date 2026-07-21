@@ -28,6 +28,17 @@
 ] call CBA_fnc_addSetting;
 
 [
+	QGVAR(doAI),
+	"CHECKBOX",
+	["Skip AI", "Will skip all calculations for AI if enabled"],
+	["KJW's Medical Expansion", "Radiate"],
+	false, // Default value
+	1, // 1: all clients share the same setting, 2: setting can’t be overwritten (optional, default: 0)
+	{}, // Setting changed code
+	false // Requires restart
+] call CBA_fnc_addSetting;
+
+[
 	QGVAR(backgroundRadiation),
 	"CHECKBOX",
 	["Background Radiation", "Enable background radiation"],
